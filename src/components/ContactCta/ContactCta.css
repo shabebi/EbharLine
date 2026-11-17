@@ -1,0 +1,40 @@
+/* =====================================================
+   10 — CENTERED CTA
+===================================================== */
+
+.el-cta {
+  padding-block: 100px 108px;
+  text-align: center;
+}
+.el-cta__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.el-cta h2 {
+  margin: 0;
+  color: var(--el-ink);
+  font-size: clamp(27px,3vw,38px);
+  font-weight: 700;
+  line-height: 1.5;
+}
+.el-cta p {
+  margin: 12px auto 0;
+  max-width: 630px;
+  color: var(--el-dim);
+  font-size: 14px;
+  line-height: 1.9;
+}
+.el-cta__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 44px;
+  margin-top: 27px;
+  color: var(--el-ink);
+  font-size: 14px;
+  font-weight: 700;
+  transition: color .2s ease;
+}
+.el-cta__link:hover { color: var(--el-red); }
+

@@ -1,0 +1,80 @@
+
+/* =====================================================
+   EBHAR LINE — HOMEPAGE STYLES
+   Arabic / English | Desktop / Tablet / Mobile
+===================================================== */
+
+/* 01 — FONT AND TOKENS */
+
+@font-face {
+  font-family: "Noto Kufi";
+  src: url("/fonts/NotoKufiArabic-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Noto Kufi";
+  src: url("/fonts/NotoKufiArabic-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Noto Kufi";
+  src: url("/fonts/NotoKufiArabic-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --navy: #121f2b;
+  --navy-deep: #0d1822;
+  --red: #ef3049;
+  --ink: #142332;
+  --muted: #647687;
+  --section-gray: #eef1f3;
+  --line: rgba(18,31,43,.16);
+  --container-width: 1120px;
+  --side-padding: 32px;
+  --header-height: 90px;
+  --nav-gap: 42px;
+  --nav-language-gap: 44px;
+  --logo-nav-min-gap: 72px;
+  --nav-label-offset: 8px;
+  --ease: cubic-bezier(.22,1,.36,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 105px;
+}
+body {
+  margin: 0;
+  color: var(--ink);
+  background: #fff;
+  font-family: "Noto Kufi", sans-serif;
+}
+body.menu-open { overflow: hidden; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+img { max-width: 100%; }
+.icon-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.container {
+  width: min(
+    calc(100% - var(--side-padding) * 2),
+    var(--container-width)
+  );
+  margin-inline: auto;
+}
+:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 4px;
+}
+

@@ -1,0 +1,140 @@
+/* =====================================================
+   07 — SECTOR CARDS
+===================================================== */
+
+.el-sectors__grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 22px;
+}
+.el-sector-card {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  min-width: 0;
+  padding: 6px;
+  color: var(--el-ink);
+  background: transparent;
+  transition:
+    transform .27s var(--el-ease),
+    box-shadow .27s ease;
+}
+.el-sector-card__surface {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+}
+.el-sector-card__media {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16/10;
+  background: #e2e7eb;
+}
+.el-sector-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .37s var(--el-ease);
+}
+.el-sector-card__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  padding: 17px 18px 15px;
+}
+.el-sector-card__title {
+  display: block;
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.55;
+  transition: color .19s ease;
+}
+.el-sector-card__description {
+  display: block;
+  margin: 0 0 19px;
+  color: var(--el-dim);
+  font-size: 11.5px;
+  line-height: 1.85;
+}
+.el-sector-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+}
+.el-sector-card__cta {
+  display: inline-flex;
+  align-items: center;
+  color: var(--el-ink);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+/* Fine frame, separated 6px from content */
+
+.el-sector-card__frame {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border: 1px solid rgba(18,31,43,.11);
+}
+.el-sector-card__stroke {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  pointer-events: none;
+}
+.el-sector-card__stroke path {
+  fill: none;
+  stroke: var(--el-red);
+  stroke-width: 1.35px;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 27 73;
+  stroke-dashoffset: 0;
+  opacity: 0;
+  transition:
+    stroke-dashoffset 520ms cubic-bezier(.43,0,.2,1),
+    opacity 90ms ease 430ms;
+}
+
+/* Same SVG path in both directions */
+
+@media (hover: hover) and (pointer: fine) {
+  .el-sector-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 11px 25px rgba(10,31,44,.06);
+  }
+  .el-sector-card:hover .el-sector-card__title {
+    color: var(--el-red);
+  }
+  .el-sector-card:hover .el-sector-card__media img {
+    transform: scale(1.035);
+  }
+  .el-sector-card:hover .el-sector-card__stroke path {
+    stroke-dashoffset: -73;
+    opacity: 1;
+    transition:
+      stroke-dashoffset 520ms cubic-bezier(.43,0,.2,1),
+      opacity 90ms ease;
+  }
+}
+.el-sector-card:focus-visible {
+  outline: 2px solid var(--el-red);
+  outline-offset: 4px;
+}
+.el-sector-card:focus-visible .el-sector-card__stroke path {
+  stroke-dashoffset: -73;
+  opacity: 1;
+}
+

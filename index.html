@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Set language + direction before first paint (matches the URL: /ar or /en) -->
+    <script>
+      (function () {
+        var en = location.pathname.split("/")[1] === "en";
+        document.documentElement.lang = en ? "en" : "ar";
+        document.documentElement.dir = en ? "ltr" : "rtl";
+      })();
+    </script>
+
+    <!-- ============ FAVICON / TAB LOGO ============ -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#121f2b" />
+
+    <!-- ============ SEO (default language: Arabic) ============
+         src/components/Seo/Seo.jsx updates all of these when the language changes. -->
+    <title>إبهار لاين | حلول هندسية وإدارية وتنفيذية متكاملة</title>
+    <meta
+      name="description"
+      content="إبهار لاين شركة متعددة القطاعات تقدم الاستشارات الهندسية وإدارة المشاريع والإنشاءات والبنية التحتية والطاقة والخدمات اللوجستية والتدريب المهني."
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="%VITE_SITE_URL%/ar" />
+    <link rel="alternate" hreflang="ar" href="%VITE_SITE_URL%/ar" />
+    <link rel="alternate" hreflang="en" href="%VITE_SITE_URL%/en" />
+    <link rel="alternate" hreflang="x-default" href="%VITE_SITE_URL%/ar" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="إبهار لاين" />
+    <meta property="og:title" content="إبهار لاين | حلول هندسية وإدارية وتنفيذية متكاملة" />
+    <meta
+      property="og:description"
+      content="إبهار لاين شركة متعددة القطاعات تقدم الاستشارات الهندسية وإدارة المشاريع والإنشاءات والبنية التحتية والطاقة والخدمات اللوجستية والتدريب المهني."
+    />
+    <meta property="og:url" content="%VITE_SITE_URL%/ar" />
+    <meta property="og:locale" content="ar_AR" />
+    <meta property="og:locale:alternate" content="en_US" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="إبهار لاين | حلول هندسية وإدارية وتنفيذية متكاملة" />
+    <meta
+      name="twitter:description"
+      content="إبهار لاين شركة متعددة القطاعات تقدم الاستشارات الهندسية وإدارة المشاريع والإنشاءات والبنية التحتية والطاقة والخدمات اللوجستية والتدريب المهني."
+    />
+
+    <!-- Structured data -->
+    <script id="ld-json" type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "%VITE_SITE_URL%/#organization",
+            "name": "إبهار لاين",
+            "alternateName": ["إبهار لاين", "Ebhar Line"],
+            "url": "%VITE_SITE_URL%/",
+            "logo": "%VITE_SITE_URL%/icon-512.png",
+            "description": "إبهار لاين شركة متعددة القطاعات تقدم الاستشارات الهندسية وإدارة المشاريع والإنشاءات والبنية التحتية والطاقة والخدمات اللوجستية والتدريب المهني."
+          },
+          {
+            "@type": "WebSite",
+            "@id": "%VITE_SITE_URL%/#website",
+            "url": "%VITE_SITE_URL%/ar",
+            "name": "إبهار لاين",
+            "inLanguage": "ar",
+            "publisher": { "@id": "%VITE_SITE_URL%/#organization" }
+          }
+        ]
+      }
+    </script>
+
+    <!-- Fonts used above the fold -->
+    <link rel="preload" href="/fonts/NotoKufiArabic-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/NotoKufiArabic-Medium.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/NotoKufiArabic-Bold.ttf" as="font" type="font/ttf" crossorigin />
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <noscript>
+      <h1>إبهار لاين | Ebhar Line</h1>
+      <p>
+        شركة متعددة القطاعات: الاستشارات الهندسية، إدارة المشاريع، الإنشاءات والمقاولات،
+        البنية التحتية والطاقة، الخدمات اللوجستية، والتدريب المهني.
+      </p>
+      <p>
+        Multi-sector company: engineering consultancy, project management, construction,
+        infrastructure and energy, logistics, and professional training.
+      </p>
+      <p>Please enable JavaScript to view this website. / يرجى تفعيل جافاسكربت لعرض الموقع.</p>
+    </noscript>
+
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

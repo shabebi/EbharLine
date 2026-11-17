@@ -1,0 +1,194 @@
+/* =====================================================
+   05 — CLIENTS & PARTNERS
+===================================================== */
+
+.ep-partners {
+  --ep-line: rgba(20,38,55,.19);
+  --ep-draw: rgba(20,38,55,.24);
+  --ep-light: rgba(10,31,48,.72);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: 43px 51px;
+  background: var(--section-gray);
+}
+.ep-partners__intro {
+  margin-bottom: 22px;
+  text-align: start;
+}
+.ep-partners__title {
+  margin: 0;
+  color: var(--navy);
+  font-size: clamp(23px,2.3vw,30px);
+  font-weight: 700;
+  line-height: 1.55;
+}
+.ep-partners__stage {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.ep-partners__grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(5,minmax(0,1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ep-partners__grid li {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  aspect-ratio: 2/1;
+  padding: 5px 8px;
+  background: transparent;
+  cursor: default;
+}
+.ep-partners__grid img {
+  display: block;
+  width: 93%;
+  height: 93%;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  user-select: none;
+}
+.ep-partners__lines {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+.ep-grid-line {
+  position: absolute;
+  display: block;
+  background: var(--ep-line);
+  pointer-events: none;
+}
+.ep-grid-line--v { top: 0; bottom: 0; width: 1px; }
+.ep-grid-line--v1 { left: 20%; }
+.ep-grid-line--v2 { left: 40%; }
+.ep-grid-line--v3 { left: 60%; }
+.ep-grid-line--v4 { left: 80%; }
+.ep-grid-line--h { left: 0; right: 0; height: 1px; }
+.ep-grid-line--h1 { top: 50%; }
+.ep-grid-line--h2 { display: none; }
+
+/* Grid drawing */
+
+.ep-grid-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ep-draw);
+  opacity: 0;
+  transition: transform 850ms var(--ease),opacity 500ms ease;
+}
+.ep-grid-line--v::after {
+  transform: scaleY(0);
+  transform-origin: top center;
+  transition-delay: 400ms;
+}
+.ep-grid-line--h::after {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition-delay: 520ms;
+}
+html[dir="rtl"] .ep-grid-line--h::after {
+  transform-origin: right center;
+}
+.ep-partners.ep-in-view .ep-grid-line--v::after {
+  opacity: 1;
+  transform: scaleY(1);
+}
+.ep-partners.ep-in-view .ep-grid-line--h::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* Traveling navy light */
+
+.ep-grid-line::before {
+  content: "";
+  position: absolute;
+  display: none;
+  pointer-events: none;
+}
+.ep-grid-line--v::before {
+  top: -30%;
+  left: 0;
+  width: 2px;
+  height: 30%;
+  background: linear-gradient(
+    to bottom,transparent,var(--ep-light) 50%,transparent
+  );
+  opacity: .76;
+  animation: ep-flow-vertical 5.9s linear infinite paused;
+}
+.ep-grid-line--h::before {
+  left: -23%;
+  top: 0;
+  width: 23%;
+  height: 2px;
+  background: linear-gradient(
+    to right,transparent,var(--ep-light) 50%,transparent
+  );
+  opacity: .76;
+  animation: ep-flow-horizontal 5.4s linear infinite paused;
+}
+.ep-grid-line--v1::before,
+.ep-grid-line--v3::before,
+.ep-grid-line--v4::before,
+.ep-grid-line--h1::before,
+.ep-grid-line--h2::before {
+  display: block;
+}
+.ep-grid-line--v3::before { animation-delay: -3.7s; }
+.ep-grid-line--v4::before { animation-delay: -2.2s; }
+.ep-grid-line--h2::before { animation-delay: -3.2s; }
+.ep-partners.ep-in-view .ep-grid-line::before {
+  animation-play-state: running;
+}
+@keyframes ep-flow-vertical {
+  from { top: -30%; }
+  to { top: 100%; }
+}
+@keyframes ep-flow-horizontal {
+  from { left: -23%; }
+  to { left: 100%; }
+}
+
+/* Partners entrance */
+
+.ep-partners.ep-motion-ready .ep-partners__title {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 580ms var(--ease),transform 580ms var(--ease);
+}
+.ep-partners.ep-in-view .ep-partners__title {
+  opacity: 1;
+  transform: none;
+}
+.ep-partners.ep-motion-ready .ep-partners__grid li {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 570ms ease var(--row-delay,0ms),
+    transform 570ms var(--ease) var(--row-delay,0ms);
+}
+.ep-partners.ep-motion-ready .ep-partners__grid li:nth-child(-n+5) {
+  --row-delay: 700ms;
+}
+.ep-partners.ep-motion-ready .ep-partners__grid li:nth-child(n+6) {
+  --row-delay: 990ms;
+}
+.ep-partners.ep-in-view .ep-partners__grid li {
+  opacity: 1;
+  transform: none;
+}
+

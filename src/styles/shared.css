@@ -1,0 +1,55 @@
+/* =====================================================
+   06 — SHARED CONTENT SYSTEM
+===================================================== */
+
+.el-sectors, .el-fields, .el-news, .el-cta {
+  --el-ink: var(--navy);
+  --el-red: var(--red);
+  --el-dim: #687b89;
+  --el-rule: rgba(18,31,43,.17);
+  --el-ease: var(--ease);
+  position: relative;
+}
+.el-sectors, .el-news { background: #fff; }
+.el-fields, .el-cta { background: var(--section-gray); }
+.el-sectors, .el-fields, .el-news {
+  padding-block: 76px 82px;
+}
+.el-section-head {
+  text-align: start;
+  margin: 0 0 31px;
+}
+.el-section-head h2 {
+  margin: 0;
+  color: var(--el-ink);
+  font-size: clamp(28px,2.9vw,38px);
+  font-weight: 700;
+  line-height: 1.5;
+}
+.el-section-head p {
+  margin: 6px 0 0;
+  max-width: 690px;
+  color: var(--el-dim);
+  font-size: 13px;
+  line-height: 1.85;
+}
+
+/* Single SVG arrow family */
+
+.el-chevron {
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  color: inherit;
+  transition: transform .24s ease,color .24s ease;
+}
+html[dir="ltr"] .el-chevron { transform: scaleX(-1); }
+a:hover .el-chevron { color: var(--el-red); }
+html[dir="rtl"] a:hover .el-chevron {
+  transform: translateX(-3px);
+}
+html[dir="ltr"] a:hover .el-chevron {
+  transform: translateX(3px) scaleX(-1);
+}
+
