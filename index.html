@@ -5,9 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Restore React route after GitHub Pages 404 redirect, then set language -->
+    <!-- Restore GitHub Pages route and set language before first paint -->
     <script>
       (function () {
+        var base = "/EbharLine";
         var params = new URLSearchParams(window.location.search);
         var redirect = params.get("p");
 
@@ -15,18 +16,12 @@
           window.history.replaceState(
             null,
             "",
-            "/EbharLine" + redirect
+            base + redirect
           );
         }
 
-        var base = "/EbharLine";
-        var path = window.location.pathname;
-
-        var route = path.startsWith(base)
-          ? path.slice(base.length)
-          : path;
-
-        var en = route.split("/").filter(Boolean)[0] === "en";
+        var path = window.location.pathname.replace(/^\/EbharLine\/?/, "");
+        var en = path.split("/").filter(Boolean)[0] === "en";
 
         document.documentElement.lang = en ? "en" : "ar";
         document.documentElement.dir = en ? "ltr" : "rtl";

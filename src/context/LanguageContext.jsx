@@ -1,11 +1,3 @@
-/* =====================================================
-   LANGUAGE CONTEXT
-   Language comes from the URL:  /ar  (Arabic, RTL)
-                                 /en  (English, LTR)
-   It also keeps <html lang> and <html dir> in sync, because
-   the CSS relies on  html[lang="…"]  and  html[dir="…"].
-===================================================== */
-
 import {
   createContext,
   useCallback,
@@ -19,8 +11,19 @@ import { DEFAULT_LANG, LANGS } from "../config/site";
 
 const LanguageContext = createContext(null);
 
+const BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+function languagePath(code) {
+  return `${BASE_PATH}/${code}`;
+}
+
 function languageFromPath(pathname) {
-  const first = pathname.split("/")[1];
+  const path = pathname.startsWith(`${BASE_PATH}/`)
+    ? pathname.slice(BASE_PATH.length)
+    : pathname;
+
+  const first = path.split("/").filter(Boolean)[0];
+
   return first === "ar" || first === "en" ? first : null;
 }
 
@@ -29,27 +32,30 @@ export function LanguageProvider({ children }) {
     () => languageFromPath(window.location.pathname) ?? DEFAULT_LANG,
   );
 
-  // "/" or unknown path  →  /ar or /en (keeps hash if any)
+  // Redirect homepage or unknown routes to the default language.
   useEffect(() => {
-    if (languageFromPath(window.location.pathname) !== lang) {
+    if (!languageFromPath(window.location.pathname)) {
       window.history.replaceState(
         null,
         "",
-        LANGS[lang].path + window.location.hash,
+        languagePath(lang) + window.location.hash,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Browser back / forward between /ar and /en
+  // Browser back / forward.
   useEffect(() => {
-    const onPop = () =>
-      setLang(languageFromPath(window.location.pathname) ?? DEFAULT_LANG);
+    const onPop = () => {
+      setLang(
+        languageFromPath(window.location.pathname) ?? DEFAULT_LANG,
+      );
+    };
+
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
 
-  // Keep <html lang dir> in sync (layout effect = before paint)
+  // Keep HTML language and direction synchronized.
   useLayoutEffect(() => {
     const root = document.documentElement;
     root.lang = lang;
@@ -59,7 +65,8 @@ export function LanguageProvider({ children }) {
   const switchLanguage = useCallback(
     (next) => {
       if (next === lang || !LANGS[next]) return;
-      window.history.pushState(null, "", LANGS[next].path);
+
+      window.history.pushState(null, "", languagePath(next));
       setLang(next);
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     },
@@ -85,6 +92,10 @@ export function LanguageProvider({ children }) {
 
 export function useLanguage() {
   const ctx = useContext(LanguageContext);
-  if (!ctx) throw new Error("useLanguage must be used inside <LanguageProvider>");
+
+  if (!ctx) {
+    throw new Error("useLanguage must be used inside <LanguageProvider>");
+  }
+
   return ctx;
 }

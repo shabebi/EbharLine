@@ -1,12 +1,12 @@
+
 /* =====================================================
-   HEADER + NAVIGATION  (+ mobile drawer backdrop)
+   HEADER + NAVIGATION (+ mobile drawer backdrop)
    Behaviour ported from main.js section 01.
 ===================================================== */
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLanguage } from "../../context/LanguageContext";
 import useMediaQuery from "../../hooks/useMediaQuery";
-import { LANGS } from "../../config/site";
 import { brand } from "../../assets";
 import { DownIcon } from "../Icons/Icons";
 import "./Header.css";
@@ -37,6 +37,7 @@ const content = {
     openMenu: "فتح القائمة",
     closeMenu: "إغلاق القائمة",
   },
+
   en: {
     logo: brand.enLogo,
     logoAlt: "Ebhar Line",
@@ -67,9 +68,12 @@ export default function Header() {
   const { lang, switchLanguage } = useLanguage();
   const t = content[lang];
 
+  const basePath = import.meta.env.BASE_URL;
+
   const isMobile = useMediaQuery("(max-width: 1050px)");
+
   const [menuOpen, setMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null); // "sectors" | "fields" | null
+  const [openDropdown, setOpenDropdown] = useState(null);
 
   const hamburgerRef = useRef(null);
   const navRef = useRef(null);
@@ -84,85 +88,132 @@ export default function Header() {
     else if (isMobile) setMenuOpen(true);
   };
 
-  /* Lock page scroll while the drawer is open (CSS: body.menu-open) */
+  /* Lock page scroll while the drawer is open */
   useEffect(() => {
     document.body.classList.toggle("menu-open", menuOpen);
+
     return () => document.body.classList.remove("menu-open");
   }, [menuOpen]);
 
-  /* Hide the drawer from keyboard / screen readers while closed on mobile */
+  /* Hide drawer from keyboard / screen readers while closed */
   useEffect(() => {
-    if (navRef.current) navRef.current.inert = isMobile && !menuOpen;
+    if (navRef.current) {
+      navRef.current.inert = isMobile && !menuOpen;
+    }
   }, [isMobile, menuOpen]);
 
-  /* Leaving / entering the mobile breakpoint resets the menu */
+  /* Reset menu when entering or leaving mobile breakpoint */
   useEffect(() => {
     closeMenu();
   }, [isMobile, closeMenu]);
 
-  /* Click outside any dropdown closes the dropdowns */
+  /* Click outside dropdown closes it */
   useEffect(() => {
     const onDocumentClick = (event) => {
-      if (!event.target.closest(".has-submenu")) setOpenDropdown(null);
+      if (!event.target.closest(".has-submenu")) {
+        setOpenDropdown(null);
+      }
     };
+
     document.addEventListener("click", onDocumentClick);
+
     return () => document.removeEventListener("click", onDocumentClick);
   }, []);
 
-  /* Escape closes everything and returns focus to the hamburger */
+  /* Escape closes everything */
   useEffect(() => {
     const onKeyDown = (event) => {
       if (event.key !== "Escape") return;
+
       closeMenu();
-      if (menuOpen) hamburgerRef.current?.focus();
+
+      if (menuOpen) {
+        hamburgerRef.current?.focus();
+      }
     };
+
     document.addEventListener("keydown", onKeyDown);
+
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [menuOpen, closeMenu]);
 
-  /* Any link inside the nav closes the mobile drawer */
+  /* Close mobile drawer after clicking a navigation link */
   const onNavClick = (event) => {
-    if (isMobile && event.target.closest("a")) closeMenu();
+    if (isMobile && event.target.closest("a")) {
+      closeMenu();
+    }
   };
 
   const toggleDropdown = (event, id) => {
     event.stopPropagation();
-    setOpenDropdown((current) => (current === id ? null : id));
+
+    setOpenDropdown((current) =>
+      current === id ? null : id
+    );
   };
 
   const hoverProps = (id) => ({
     onMouseEnter: () => {
       if (!isMobile) setOpenDropdown(id);
     },
+
     onMouseLeave: () => {
-      if (!isMobile) setOpenDropdown((current) => (current === id ? null : current));
+      if (!isMobile) {
+        setOpenDropdown((current) =>
+          current === id ? null : current
+        );
+      }
     },
   });
 
+  /* Language switcher */
   const chooseLanguage = (event, code) => {
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+    if (
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.button !== 0
+    ) {
+      return;
+    }
+
     event.preventDefault();
     switchLanguage(code);
   };
 
+  /* Logo returns to the current language homepage */
   const goHome = (event) => {
     event.preventDefault();
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+
+    window.history.pushState(
+      null,
+      "",
+      `${basePath}${lang}`
+    );
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
   };
 
   return (
     <>
       <header className="site-header">
         <div className="container header-inner">
+
+          {/* Logo */}
           <a
             className="site-logo"
-            href={LANGS[lang].path}
+            href={`${basePath}${lang}`}
             aria-label={t.logoLabel}
             onClick={goHome}
           >
             <img src={t.logo} alt={t.logoAlt} />
           </a>
 
+          {/* Navigation */}
           <nav
             ref={navRef}
             className={`site-nav${menuOpen ? " is-open" : ""}`}
@@ -171,12 +222,20 @@ export default function Header() {
             onClick={onNavClick}
           >
             <div className="nav-items">
-              <a className="nav-link is-active" href="#home" aria-current="page">
+
+              <a
+                className="nav-link is-active"
+                href="#home"
+                aria-current="page"
+              >
                 {t.home}
               </a>
 
+              {/* Sectors dropdown */}
               <div
-                className={`nav-item has-submenu${openDropdown === "sectors" ? " is-open" : ""}`}
+                className={`nav-item has-submenu${
+                  openDropdown === "sectors" ? " is-open" : ""
+                }`}
                 {...hoverProps("sectors")}
               >
                 <button
@@ -184,7 +243,9 @@ export default function Header() {
                   type="button"
                   aria-expanded={openDropdown === "sectors"}
                   aria-controls="sectors-menu"
-                  onClick={(event) => toggleDropdown(event, "sectors")}
+                  onClick={(event) =>
+                    toggleDropdown(event, "sectors")
+                  }
                 >
                   <span>{t.sectors}</span>
                   <DownIcon />
@@ -199,8 +260,11 @@ export default function Header() {
                 </ul>
               </div>
 
+              {/* Project fields dropdown */}
               <div
-                className={`nav-item has-submenu${openDropdown === "fields" ? " is-open" : ""}`}
+                className={`nav-item has-submenu${
+                  openDropdown === "fields" ? " is-open" : ""
+                }`}
                 {...hoverProps("fields")}
               >
                 <button
@@ -208,7 +272,9 @@ export default function Header() {
                   type="button"
                   aria-expanded={openDropdown === "fields"}
                   aria-controls="fields-menu"
-                  onClick={(event) => toggleDropdown(event, "fields")}
+                  onClick={(event) =>
+                    toggleDropdown(event, "fields")
+                  }
                 >
                   <span>{t.fields}</span>
                   <DownIcon />
@@ -226,44 +292,67 @@ export default function Header() {
               <a className="nav-link" href="#events">
                 {t.events}
               </a>
+
             </div>
           </nav>
 
+          {/* Header controls */}
           <div className="header-controls">
-            <div className="language-switcher" dir="ltr" aria-label={t.languageLabel}>
+
+            {/* Language switcher */}
+            <div
+              className="language-switcher"
+              dir="ltr"
+              aria-label={t.languageLabel}
+            >
               <img
                 className="language-icon"
                 src={brand.webIcon}
                 alt=""
                 aria-hidden="true"
               />
+
               <a
-                className={`lang-link${lang === "ar" ? " is-current" : ""}`}
-                href={LANGS.ar.path}
+                className={`lang-link${
+                  lang === "ar" ? " is-current" : ""
+                }`}
+                href={`${basePath}ar`}
                 lang="en"
                 aria-label={t.arLabel}
                 aria-current={lang === "ar" ? "page" : undefined}
-                onClick={(event) => chooseLanguage(event, "ar")}
+                onClick={(event) =>
+                  chooseLanguage(event, "ar")
+                }
               >
                 AR
               </a>
+
               <a
-                className={`lang-link${lang === "en" ? " is-current" : ""}`}
-                href={LANGS.en.path}
+                className={`lang-link${
+                  lang === "en" ? " is-current" : ""
+                }`}
+                href={`${basePath}en`}
                 lang="en"
                 aria-label={t.enLabel}
                 aria-current={lang === "en" ? "page" : undefined}
-                onClick={(event) => chooseLanguage(event, "en")}
+                onClick={(event) =>
+                  chooseLanguage(event, "en")
+                }
               >
                 EN
               </a>
             </div>
 
+            {/* Mobile hamburger */}
             <button
               ref={hamburgerRef}
-              className={`hamburger${menuOpen ? " is-open" : ""}`}
+              className={`hamburger${
+                menuOpen ? " is-open" : ""
+              }`}
               type="button"
-              aria-label={menuOpen ? t.closeMenu : t.openMenu}
+              aria-label={
+                menuOpen ? t.closeMenu : t.openMenu
+              }
               aria-controls="site-nav"
               aria-expanded={menuOpen}
               onClick={toggleMenu}
@@ -272,10 +361,12 @@ export default function Header() {
               <span></span>
               <span></span>
             </button>
+
           </div>
         </div>
       </header>
 
+      {/* Mobile navigation backdrop */}
       <button
         className="nav-backdrop"
         type="button"
