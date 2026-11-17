@@ -1,0 +1,22 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    const repo = "/EbharLine";
+    const path = window.location.pathname;
+
+    const route = path.startsWith(repo)
+      ? path.slice(repo.length)
+      : path;
+
+    window.location.replace(
+      repo + "/?p=" + encodeURIComponent(
+        route + window.location.search + window.location.hash
+      )
+    );
+  </script>
+</head>
+<body></body>
+</html>
