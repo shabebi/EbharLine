@@ -1,34 +1,56 @@
+
 <!doctype html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Set language + direction before first paint (matches the URL: /ar or /en) -->
+    <!-- Restore React route after GitHub Pages 404 redirect, then set language -->
     <script>
       (function () {
-        var en = location.pathname.split("/")[1] === "en";
+        var params = new URLSearchParams(window.location.search);
+        var redirect = params.get("p");
+
+        if (redirect) {
+          window.history.replaceState(
+            null,
+            "",
+            "/EbharLine" + redirect
+          );
+        }
+
+        var base = "/EbharLine";
+        var path = window.location.pathname;
+
+        var route = path.startsWith(base)
+          ? path.slice(base.length)
+          : path;
+
+        var en = route.split("/").filter(Boolean)[0] === "en";
+
         document.documentElement.lang = en ? "en" : "ar";
         document.documentElement.dir = en ? "ltr" : "rtl";
       })();
     </script>
 
-    <!-- ============ FAVICON / TAB LOGO ============ -->
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png" />
-    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <!-- Favicon / Tab Logo -->
+    <link rel="icon" href="%BASE_URL%favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="%BASE_URL%favicon-48.png" sizes="48x48" type="image/png" />
+    <link rel="icon" href="%BASE_URL%favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="%BASE_URL%apple-touch-icon.png" />
+    <link rel="manifest" href="%BASE_URL%site.webmanifest" />
     <meta name="theme-color" content="#121f2b" />
 
-    <!-- ============ SEO (default language: Arabic) ============
-         src/components/Seo/Seo.jsx updates all of these when the language changes. -->
+    <!-- SEO -->
     <title>إبهار لاين | حلول هندسية وإدارية وتنفيذية متكاملة</title>
+
     <meta
       name="description"
       content="إبهار لاين شركة متعددة القطاعات تقدم الاستشارات الهندسية وإدارة المشاريع والإنشاءات والبنية التحتية والطاقة والخدمات اللوجستية والتدريب المهني."
     />
+
     <meta name="robots" content="index, follow, max-image-preview:large" />
+
     <link rel="canonical" href="%VITE_SITE_URL%/ar" />
     <link rel="alternate" hreflang="ar" href="%VITE_SITE_URL%/ar" />
     <link rel="alternate" hreflang="en" href="%VITE_SITE_URL%/en" />
@@ -37,7 +59,10 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="إبهار لاين" />
-    <meta property="og:title" content="إبهار لاين | حلول هندسية وإدارية وتنفيذية متكاملة" />
+    <meta
+      property="og:title"
+      content="إبهار لاين | حلول هندسية وإدارية وتنفيذية متكاملة"
+    />
     <meta
       property="og:description"
       content="إبهار لاين شركة متعددة القطاعات تقدم الاستشارات الهندسية وإدارة المشاريع والإنشاءات والبنية التحتية والطاقة والخدمات اللوجستية والتدريب المهني."
@@ -48,13 +73,16 @@
 
     <!-- Twitter / X -->
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="إبهار لاين | حلول هندسية وإدارية وتنفيذية متكاملة" />
+    <meta
+      name="twitter:title"
+      content="إبهار لاين | حلول هندسية وإدارية وتنفيذية متكاملة"
+    />
     <meta
       name="twitter:description"
       content="إبهار لاين شركة متعددة القطاعات تقدم الاستشارات الهندسية وإدارة المشاريع والإنشاءات والبنية التحتية والطاقة والخدمات اللوجستية والتدريب المهني."
     />
 
-    <!-- Structured data -->
+    <!-- Structured Data -->
     <script id="ld-json" type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -74,33 +102,60 @@
             "url": "%VITE_SITE_URL%/ar",
             "name": "إبهار لاين",
             "inLanguage": "ar",
-            "publisher": { "@id": "%VITE_SITE_URL%/#organization" }
+            "publisher": {
+              "@id": "%VITE_SITE_URL%/#organization"
+            }
           }
         ]
       }
     </script>
 
-    <!-- Fonts used above the fold -->
-    <link rel="preload" href="/fonts/NotoKufiArabic-Regular.ttf" as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href="/fonts/NotoKufiArabic-Medium.ttf" as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href="/fonts/NotoKufiArabic-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <!-- Fonts -->
+    <link
+      rel="preload"
+      href="%BASE_URL%fonts/NotoKufiArabic-Regular.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="%BASE_URL%fonts/NotoKufiArabic-Medium.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="%BASE_URL%fonts/NotoKufiArabic-Bold.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
   </head>
+
   <body>
     <div id="root"></div>
 
     <noscript>
       <h1>إبهار لاين | Ebhar Line</h1>
+
       <p>
         شركة متعددة القطاعات: الاستشارات الهندسية، إدارة المشاريع، الإنشاءات والمقاولات،
         البنية التحتية والطاقة، الخدمات اللوجستية، والتدريب المهني.
       </p>
+
       <p>
         Multi-sector company: engineering consultancy, project management, construction,
         infrastructure and energy, logistics, and professional training.
       </p>
-      <p>Please enable JavaScript to view this website. / يرجى تفعيل جافاسكربت لعرض الموقع.</p>
+
+      <p>
+        Please enable JavaScript to view this website. /
+        يرجى تفعيل جافاسكربت لعرض الموقع.
+      </p>
     </noscript>
 
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="%BASE_URL%src/main.jsx"></script>
   </body>
 </html>
